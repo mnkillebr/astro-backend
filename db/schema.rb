@@ -10,17 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_210129) do
+ActiveRecord::Schema.define(version: 2019_04_15_172623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "matchings", force: :cascade do |t|
+    t.bigint "sign_id"
+    t.bigint "matched_sign_id"
+    t.boolean "compatible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["matched_sign_id"], name: "index_matchings_on_matched_sign_id"
+    t.index ["sign_id", "matched_sign_id"], name: "index_matchings_on_sign_id_and_matched_sign_id", unique: true
+    t.index ["sign_id"], name: "index_matchings_on_sign_id"
+  end
 
   create_table "signs", force: :cascade do |t|
     t.string "image"
     t.string "name"
     t.string "date_range"
+    t.string "description"
+    t.string "traits"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "matchings", "signs"
+  add_foreign_key "matchings", "signs", column: "matched_sign_id"
 end
