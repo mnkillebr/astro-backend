@@ -18,7 +18,7 @@ class SignsController < ApplicationController
   private
 
   def sign_params
-    params.permit(:image, :name, :date_range, :traits, :description )
+    params.permit(:image, :name, :date_range, :traits, :description)
   end
 
 end
